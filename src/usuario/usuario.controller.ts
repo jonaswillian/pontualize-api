@@ -13,7 +13,7 @@ export class UsuarioController {
 
     @Get("selecionar/:aaa")
     x2(@Param('aaa') username:string){
-        return this.us.SelecionarUsuario(username)
+        return this.us.logarUsuario(username)
     }
 
     @Post("cadastrar")

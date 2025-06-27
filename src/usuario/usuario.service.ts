@@ -14,17 +14,21 @@ export class UsuarioService {
         return "Bem vindo ao módulo de usuário"
     }
 
-    async SelecionarUsuario(username):Promise<Usuario | null>{
-        return this.baciaUsuario.findOneBy(username)
+    async logarUsuario(x):Promise<Usuario | null>{
+        return this.baciaUsuario.findOne({
+            where: {
+                username : x
+            }
+        })
     }
 
-    async CadastrarUsuario(dados:UsuarioDto):Promise<Usuario | null>{
+    CadastrarUsuario(dados:UsuarioDto):string{
         let u = new Usuario()
         u.nome = dados.nome
         u.cpf = dados.cpf
         u.username = dados.username
         u.password = dados.password
         this.baciaUsuario.save(u)
-        return u
+        return "Salvou com sucesso"
     }
 }
