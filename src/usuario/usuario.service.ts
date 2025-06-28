@@ -1,34 +1,26 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { Usuario } from './usuario.entity';
 import { UsuarioDto } from './usuario.dto';
+import { PrismaService } from 'src/database/prisma.service';
+import { Usuario } from 'generated/prisma';
 
 @Injectable()
 export class UsuarioService {
-    constructor(
-        @Inject('USUARIO_REPOSITORY')
-        private baciaUsuario: Repository<Usuario>,
-    ){}
+    constructor(private prisma: PrismaService) {}
 
     MensagemInicial():string{
         return "Bem vindo ao módulo de usuário"
     }
 
-    async logarUsuario(x):Promise<Usuario | null>{
-        return this.baciaUsuario.findOne({
+    async logarUsuario(x):Promise<Usuario |  null>{
+        return this.prisma.usuario.findUnique({
             where: {
                 username : x
             }
         })
     }
 
-    CadastrarUsuario(dados:UsuarioDto):string{
-        let u = new Usuario()
-        u.nome = dados.nome
-        u.cpf = dados.cpf
-        u.username = dados.username
-        u.password = dados.password
-        this.baciaUsuario.save(u)
-        return "Salvou com sucesso"
+    async CadastrarUsuario(dados:UsuarioDto): Promise<string>{
+        await this.prisma.usuario.create({data: dados})
+        return "Usuário criado com sucesso"
     }
 }

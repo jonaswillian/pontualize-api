@@ -12,7 +12,7 @@ export const databaseProviders = [
         password: '',
         database: 'pontualize',
         entities: [
-            __dirname + '/../**/*.entity{.ts,.js}',
+          __dirname + '/../usuario/usuario.entity.js',
         ],
         synchronize: true,
       });
